@@ -79,6 +79,17 @@ module StableMatch
       !free?
     end
 
+    def inspect
+      {
+        :target              => target,
+        :match_positions     => match_positions,
+        :matches             => matches.map( &:target ),
+        :preference_position => preference_position,
+        :preferences         => preferences.map( &:target ),
+        :proposals           => proposals.map( &:target )
+      }
+    end
+
     def matched?(other = nil)
       if other.nil?
         matches.length >= match_positions
