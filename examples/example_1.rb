@@ -3,7 +3,7 @@ require "stable_match"
 class Test
   PROGRAMS = {
     'city'    => {:positions => 1, :preferences => ['garcia', 'hassan', 'eastman', 'brown', 'chen', 'davis', 'ford']},
-    'general' => {:positions => 1, :preferences => ['brown', 'eastman', 'hassan', 'anderson', 'chen', 'davis', 'garcia']},
+    'general' => {:positions => 3, :preferences => ['brown', 'eastman', 'hassan', 'anderson', 'chen', 'davis', 'garcia']},
     'mercy'   => {:positions => 1, :preferences => ['chen', 'garcia', 'brown']},
     'state'   => {:positions => 1, :preferences => ['anderson', 'brown', 'eastman', 'chen', 'hassan', 'ford', 'davis', 'garcia']}
   }
@@ -20,8 +20,9 @@ class Test
   }
 
   def self.main
+    #matcher = StableMatch.run(PROGRAMS, APPLICANTS)
     matcher = StableMatch.run(APPLICANTS, PROGRAMS)
-    puts matcher.results_description
+    #puts matcher.results_description
   end
 end
 

@@ -71,6 +71,27 @@ module StableMatch
       self.built = true
     end
 
+    def inspect
+      summary =
+        {
+          'candidate_set1' => 
+            @candidate_set1.keys.inject(Hash.new) do |hash, key|
+              candidate = @candidate_set1[key]
+              preferences = candidate.preferences
+
+              hash.update(
+                candidate.target => {
+                  'matches'     => candidate.matches.map(&:target),
+                  'preferences' => candidate.preferences.map(&:target),
+                  'proposals'   => candidate.proposals.map(&:target)
+                }
+              )
+            end
+
+        }
+      summary.to_yaml
+    end
+
     def check!
       error     = proc { | message | raise ArgumentError.new( message ) }
       set1_keys = set1.keys
@@ -102,7 +123,7 @@ module StableMatch
     end
 
     def remaining_candidates
-      candidates.reject{ | candidate | candidate.matched? || candidate.exhausted_preferences? }
+      candidates.reject{ | candidate | candidate.full? || candidate.exhausted_preferences? }
     end
 
     def results_description
@@ -116,20 +137,16 @@ module StableMatch
     end
 
     def run
-      # while ( candidates = remaining_candidates ).any?
-      #   candidates.each do | candidate |
-      #     while !candidate.exhausted_preferences? && candidate.free?
-      #       candidate.propose_to_next_preference
-      #     end
-      #   end
-      # end
-      cs = remaining_candidates
-      cs.each do |c|
-        puts c.preferences.size
-        puts c.exhausted_preferences?
-        puts c.free?
-        c.propose_to_next_preference
+      while ( candidates = remaining_candidates ).any?
+        candidates.each do | candidate |
+          while !candidate.exhausted_preferences? && candidate.free?
+            candidate.propose_to_next_preference
+          end
+        end
       end
+
+p self
+
       self
     end
   end
