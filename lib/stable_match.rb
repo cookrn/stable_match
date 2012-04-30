@@ -1,5 +1,3 @@
-require "yaml"
-
 require "fattr"
 require "map"
 

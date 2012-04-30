@@ -3,6 +3,14 @@
 require "bundler/gem_tasks"
 require "rake/testtask"
 
+namespace :examples do
+  desc "Run any example"
+  task :any do
+    exec "ruby #{ Dir[ "#{ File.dirname File.expand_path( __FILE__ ) }/examples/**/*.rb" ].first }"
+  end
+end
+task :example => "examples:any"
+
 namespace :test do
   desc "Run All The Tests"
   task :all => [ "test:unit" ]

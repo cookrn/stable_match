@@ -10,7 +10,7 @@ class Test
 
   APPLICANTS = {
     'anderson' => { :match_positions => 1 , :preferences => ['state', 'city'] },
-    'brown'    => { :match_positions => 1 , :preferences => ['city', 'mercy', 'state'] },
+    'brown'    => { :match_positions => 2 , :preferences => ['city', 'mercy', 'state'] },
     'chen'     => { :match_positions => 1 , :preferences => ['city', 'mercy'] },
     'davis'    => { :match_positions => 1 , :preferences => ['mercy', 'city', 'general', 'state'] },
     'eastman'  => { :match_positions => 1 , :preferences => ['city', 'mercy', 'state', 'general'] },
@@ -20,9 +20,7 @@ class Test
   }
 
   def self.main
-    #matcher = StableMatch.run(PROGRAMS, APPLICANTS)
-    matcher = StableMatch.run(APPLICANTS, PROGRAMS)
-    #puts matcher.results_description
+    p StableMatch.run(APPLICANTS, PROGRAMS)
   end
 end
 

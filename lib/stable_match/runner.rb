@@ -16,18 +16,18 @@ module StableMatch
 
   ## The first set to use in the matching
   #
-    fattr( :candidate_set1 ){ {} }
-    fattr :set1
+    fattr( :candidate_set1 ){ {} } # for Candidates
+    fattr :set1                    # raw data
 
   ## The second set to use in the matching
   #
-    fattr( :candidate_set2 ){ {} }
-    fattr :set2
+    fattr( :candidate_set2 ){ {} } # for Candidates
+    fattr :set2                    # raw data
 
-  ## The maximum time the algorithm should run in seconds
+  ## Runner::run
   #
-    fattr( :threshold ){ 1 }
-
+  # Class-level factory method to construct, check, build and run a Runner instance
+  #
     def self.run( *args , &block )
       runner = new *args , &block
       runner.check!
@@ -36,15 +36,21 @@ module StableMatch
     end
 
     def initialize( *args , &block )
-      options    = Map.opts args
-      @set1      = options.set1 rescue args.shift or raise ArgumentError.new( "No `set1` provided!" )
-      @set2      = options.set2 rescue args.shift or raise ArgumentError.new( "No `set2` provided!" )
-
-      @threshold = options.threshold if options.get( :threshold )
+      options = Map.opts args
+      @set1   = options.set1 rescue args.shift or raise ArgumentError.new( "No `set1` provided!" )
+      @set2   = options.set2 rescue args.shift or raise ArgumentError.new( "No `set2` provided!" )
 
       yield self if block_given?
     end
 
+  ## Runner#build!
+  #
+  # Convert `set1` and `set2` into `candidate_set1` and `candidate_set2`
+  # Also, track a master array of `candidates`
+  # Mark itself as `built`
+  #
+  # ARG: `other` -- another Candidate instance to check against the current set
+  #
     def build!
       set1.each do | target , options |
         candidate = Candidate.new target , *[ options ]
@@ -71,27 +77,12 @@ module StableMatch
       self.built = true
     end
 
-    def inspect
-      summary =
-        {
-          'candidate_set1' => 
-            @candidate_set1.keys.inject(Hash.new) do |hash, key|
-              candidate = @candidate_set1[key]
-              preferences = candidate.preferences
-
-              hash.update(
-                candidate.target => {
-                  'matches'     => candidate.matches.map(&:target),
-                  'preferences' => candidate.preferences.map(&:target),
-                  'proposals'   => candidate.proposals.map(&:target)
-                }
-              )
-            end
-
-        }
-      summary.to_yaml
-    end
-
+  ## Runner#check!
+  #
+  # Run basic checks against each raw set
+  # Meant to be run before being built into candidate sets
+  # Mark itself as `checked`
+  #
     def check!
       error     = proc { | message | raise ArgumentError.new( message ) }
       set1_keys = set1.keys
@@ -122,31 +113,54 @@ module StableMatch
       self.checked = true
     end
 
+    def inspect
+      require "yaml"
+
+      inspection = proc do | set |
+        set.keys.inject( Hash.new ) do | hash , key |
+          candidate = set[ key ]
+          preferences = candidate.preferences
+
+          hash.update(
+            key => {
+              'matches'     => candidate.matches.map( &:target ),
+              'preferences' => candidate.preferences.map( &:target ),
+              'proposals'   => candidate.proposals.map( &:target )
+            }
+          )
+        end
+      end
+
+      {
+        'candidate_set1' => inspection[ candidate_set1 ],
+        'candidate_set2' => inspection[ candidate_set2 ]
+      }.to_yaml
+    end
+
+  ## Runner#remaining_candidates
+  #
+  # List the remaining candidates that:
+  # -> have remaining slots available for matches AND
+  # -> have not already proposed to all of their preferences
+  #
     def remaining_candidates
       candidates.reject{ | candidate | candidate.full? || candidate.exhausted_preferences? }
     end
 
-    def results_description
-      "\nMatch results:\n".tap do |str|
-        candidate_set1.each { |target, candidate| str << candidate.description + "\n" }
-        str << "Unmatched Applicants: #{applicants.reject {|_,a|a.matched?}.map {|n,_|n}.join(', ')}"
-        str << "\n\n"
-        applicants.each { |name, applicant| str << applicant.description + "\n" }
-        str << "Unmatched Programs: #{programs.reject {|_,p|p.matched?}.map {|n,_|n}.join(', ')}"
-      end
-    end
-
+  ## Runner#remaining_candidates
+  #
+  # While there are remaining candidates, ask each one to propose to all of their preferences until:
+  # -> a candidate has proposed to all of their preferences
+  # -> a candidate has no more `matching_positions` to be filled
+  #
     def run
-      while ( candidates = remaining_candidates ).any?
-        candidates.each do | candidate |
+      while ( rcs = remaining_candidates ).any?
+        rcs.each do | candidate |
           while !candidate.exhausted_preferences? && candidate.free?
             candidate.propose_to_next_preference
           end
         end
       end
-
-p self
-
       self
     end
   end
