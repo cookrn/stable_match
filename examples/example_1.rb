@@ -2,21 +2,21 @@ require "stable_match"
 
 class Test
   PROGRAMS = {
-    'city'    => {:positions => 1, :preferences => ['garcia', 'hassan', 'eastman', 'brown', 'chen', 'davis', 'ford']},
-    'general' => {:positions => 3, :preferences => ['brown', 'eastman', 'hassan', 'anderson', 'chen', 'davis', 'garcia']},
-    'mercy'   => {:positions => 1, :preferences => ['chen', 'garcia', 'brown']},
-    'state'   => {:positions => 1, :preferences => ['anderson', 'brown', 'eastman', 'chen', 'hassan', 'ford', 'davis', 'garcia']}
+    'city'    => { :match_positions => 1, :preferences => ['garcia', 'hassan', 'eastman', 'brown', 'chen', 'davis', 'ford']},
+    'general' => { :match_positions => 3, :preferences => ['brown', 'eastman', 'hassan', 'anderson', 'chen', 'davis', 'garcia']},
+    'mercy'   => { :match_positions => 1, :preferences => ['chen', 'garcia', 'brown']},
+    'state'   => { :match_positions => 1, :preferences => ['anderson', 'brown', 'eastman', 'chen', 'hassan', 'ford', 'davis', 'garcia']}
   }
 
   APPLICANTS = {
-    'anderson' => { :positions => 1 , :preferences => ['state', 'city'] },
-    'brown'    => { :positions => 1 , :preferences => ['city', 'mercy', 'state'] },
-    'chen'     => { :positions => 1 , :preferences => ['city', 'mercy'] },
-    'davis'    => { :positions => 1 , :preferences => ['mercy', 'city', 'general', 'state'] },
-    'eastman'  => { :positions => 1 , :preferences => ['city', 'mercy', 'state', 'general'] },
-    'ford'     => { :positions => 1 , :preferences => ['city', 'general', 'mercy', 'state'] },
-    'garcia'   => { :positions => 1 , :preferences => ['city', 'mercy', 'state', 'general'] },
-    'hassan'   => { :positions => 1 , :preferences => ['state', 'city', 'mercy', 'general' ] }
+    'anderson' => { :match_positions => 1 , :preferences => ['state', 'city'] },
+    'brown'    => { :match_positions => 1 , :preferences => ['city', 'mercy', 'state'] },
+    'chen'     => { :match_positions => 1 , :preferences => ['city', 'mercy'] },
+    'davis'    => { :match_positions => 1 , :preferences => ['mercy', 'city', 'general', 'state'] },
+    'eastman'  => { :match_positions => 1 , :preferences => ['city', 'mercy', 'state', 'general'] },
+    'ford'     => { :match_positions => 1 , :preferences => ['city', 'general', 'mercy', 'state'] },
+    'garcia'   => { :match_positions => 1 , :preferences => ['city', 'mercy', 'state', 'general'] },
+    'hassan'   => { :match_positions => 1 , :preferences => ['state', 'city', 'mercy', 'general' ] }
   }
 
   def self.main

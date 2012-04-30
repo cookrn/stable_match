@@ -31,7 +31,7 @@ module StableMatch
       @target      = options.target      rescue args.shift or raise ArgumentError.new( "No `target` provided!" )
       @preferences = options.preferences rescue args.shift or raise ArgumentError.new( "No `preferences` provided!" )
 
-      @match_positions   = options.positions if options.get( :positions )
+      @match_positions   = options.match_positions if options.get( :match_positions )
     end
 
     def exhausted_preferences?
