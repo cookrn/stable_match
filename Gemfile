@@ -1,0 +1,6 @@
+source 'https://rubygems.org'
+gemspec
+
+group :development do
+  gem "pry" , "~> 0.9.9.4"
+end
