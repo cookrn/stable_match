@@ -6,24 +6,30 @@ A generic implementation of the Stable Match class of algorithms.
 
 ### Without Bundler
 
-Or install it yourself as:
+Install it yourself:
 
-    $ gem install stable_match
+```
+$ gem install stable_match
+```
 
 ### With Bundler
 
 Add this line to your application's Gemfile:
 
-    gem 'stable_match'
+```ruby
+gem 'stable_match'
+```
 
 And then execute:
 
-    $ bundle
+```
+$ bundle
+```
 
 ## Usage
 
-See: `examples/example_1.rb`
-Run: `rake example`
+* See: `examples/example_1.rb`
+* Run: `rake example`
 
 TODO: Write more usage instructions here
 
