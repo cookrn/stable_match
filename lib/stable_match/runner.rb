@@ -49,8 +49,6 @@ module StableMatch
   # Also, track a master array of `candidates`
   # Mark itself as `built`
   #
-  # ARG: `other` -- another Candidate instance to check against the current set
-  #
     def build!
       set1.each do | target , options |
         candidate = Candidate.new target , *[ options ]
