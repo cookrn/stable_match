@@ -41,9 +41,10 @@ module StableMatch
   # ARG: `other` -- another Candidate instance to check against the current set
   #
     def better_match?( other )
+      return true if prefers?( other ) && free?
       preference_index = preferences.index other
       match_preference_indexes = matches.map { | match | preferences.index match }
-      preference_index and match_preference_indexes.any?{ |i| i > preference_index }
+      preference_index and match_preference_indexes.any? { |i| i > preference_index }
     end
 
   ## Candidate#exhausted_preferences?
@@ -67,6 +68,7 @@ module StableMatch
   # Delete the least-preferred candidate from the matches array
   #
     def free!
+      return false if matches.empty?
       match_preference_indexes = matches.map { | match | preferences.index match }
       max                      = match_preference_indexes.max # The index of the match with the lowest preference
       candidate_to_reject      = preferences[ max ]
@@ -105,11 +107,9 @@ module StableMatch
   # ARG: `other` -- another Candidate instance to match with
   #
     def match!( other )
+      return false unless prefers?( other ) && !matched?( other )
       matches       << other
       other.matches << self
-
-      matches.uniq!
-      other.matches.uniq!
     end
 
   ## Candidate#matched?
@@ -120,11 +120,8 @@ module StableMatch
   # ARG: `other` [optional] -- another Candidate instance
   #
     def matched?( other = nil )
-      if other.nil?
-        matches.length >= match_positions
-      else
-        matches.include? other
-      end
+      return full? if other.nil?
+      matches.include? other
     end
 
   ## Candidate#next_preference!

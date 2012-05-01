@@ -145,7 +145,7 @@ module StableMatch
       candidates.reject{ | candidate | candidate.full? || candidate.exhausted_preferences? }
     end
 
-  ## Runner#remaining_candidates
+  ## Runner#run
   #
   # While there are remaining candidates, ask each one to propose to all of their preferences until:
   # -> a candidate has proposed to all of their preferences
