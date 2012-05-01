@@ -10,14 +10,14 @@ class NationalResidentMatchingProgramFunctionalTest < MiniTest::Unit::TestCase
     }
 
     applicants = {
-      'anderson' => { :match_positions => 1 , :preferences => ['city'] },
-      'brown'    => { :match_positions => 1 , :preferences => ['city', 'mercy'] },
-      'chen'     => { :match_positions => 1 , :preferences => ['city', 'mercy'] },
-      'davis'    => { :match_positions => 1 , :preferences => ['mercy', 'city', 'general', 'state'] },
-      'eastman'  => { :match_positions => 1 , :preferences => ['city', 'mercy', 'state', 'general'] },
-      'ford'     => { :match_positions => 1 , :preferences => ['city', 'general', 'mercy', 'state'] },
-      'garcia'   => { :match_positions => 1 , :preferences => ['city', 'mercy', 'state', 'general'] },
-      'hassan'   => { :match_positions => 1 , :preferences => ['state', 'city', 'mercy', 'general' ] }
+      'anderson' => { :preferences => ['city'] },
+      'brown'    => { :preferences => ['city', 'mercy'] },
+      'chen'     => { :preferences => ['city', 'mercy'] },
+      'davis'    => { :preferences => ['mercy', 'city', 'general', 'state'] },
+      'eastman'  => { :preferences => ['city', 'mercy', 'state', 'general'] },
+      'ford'     => { :preferences => ['city', 'general', 'mercy', 'state'] },
+      'garcia'   => { :preferences => ['city', 'mercy', 'state', 'general'] },
+      'hassan'   => { :preferences => ['state', 'city', 'mercy', 'general' ] }
     }
 
     programs_expectations = {
