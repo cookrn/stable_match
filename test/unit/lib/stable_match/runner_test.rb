@@ -1,6 +1,6 @@
 require "test_helper"
 
-class StableMatch::RunnerTest < MiniTest::Unit::TestCase
+class StableMatch::RunnerUnitTest < MiniTest::Unit::TestCase
   def setup
     @set1 = { 1 => { :preferences => [ 2 ] } }
     @set2 = { 2 => { :preferences => [ 1 ] } }

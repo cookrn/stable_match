@@ -1,6 +1,6 @@
 require "test_helper"
 
-class StableMatch::CandidateTest < MiniTest::Unit::TestCase
+class StableMatch::CandidateUnitTest < MiniTest::Unit::TestCase
   def setup
     @candidate1 = StableMatch::Candidate.new 1 , [ 2 , 3 ]
     @candidate2 = StableMatch::Candidate.new 2 , [ 1 , 3 ]
