@@ -27,6 +27,15 @@ class StableMatch::RunnerUnitTest < MiniTest::Unit::TestCase
     assert{ runner.set2 == @set2 }
   end
 
+  def test_accepts_a_strategy_option
+    runner = assert{ StableMatch::Runner.new @set1 , @set2 , :strategy => :asymmetric }
+    assert{ :asymmetric == runner.strategy }
+  end
+
+  def test_default_strategy_is_symmetric
+    assert{ StableMatch::Runner.new( @set1 , @set2 ).strategy == :symmetric }
+  end
+
 ## Runner#build!
 #
   def test_build_creates_candidate_sets_from_each_raw_set
@@ -98,6 +107,20 @@ class StableMatch::RunnerUnitTest < MiniTest::Unit::TestCase
     original_size = runner.remaining_candidates.size
     runner.candidates.first.tap { | c | c.preference_position = c.preferences.size - 1 }
     assert{ original_size > runner.remaining_candidates.size }
+  end
+
+  def test_remaining_candidates_respects_the_run_strategy
+    runner = build_prepared_runner
+    assert{ runner.strategy == :symmetric }
+
+    all       = runner.candidates.map &:target
+    remaining = runner.remaining_candidates.map &:target
+    assert{ all.sort == remaining.sort }
+
+    runner.strategy :asymmetric
+    set1      = @set1.keys
+    remaining = runner.remaining_candidates.map &:target
+    assert{ set1.sort == remaining.sort }
   end
 
 ## Runner#run

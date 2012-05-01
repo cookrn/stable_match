@@ -24,23 +24,29 @@ module StableMatch
     fattr( :candidate_set2 ){ {} } # for Candidates
     fattr :set2                    # raw data
 
+  ## The way in which the run loop executes
+  #
+  # Should be either: symmetric OR asymmetric
+  #
+    fattr( :strategy ){ :symmetric }
+
   ## Runner::run
   #
   # Class-level factory method to construct, check, build and run a Runner instance
   #
-    def self.run( *args , &block )
-      runner = new *args , &block
+    def self.run( *args )
+      runner = new *args
       runner.check!
       runner.build!
       runner.run
     end
 
-    def initialize( *args , &block )
+    def initialize( *args )
       options = Map.opts args
       @set1   = options.set1 rescue args.shift or raise ArgumentError.new( "No `set1` provided!" )
       @set2   = options.set2 rescue args.shift or raise ArgumentError.new( "No `set2` provided!" )
 
-      yield self if block_given?
+      @strategy = options.strategy if options.get( :strategy )
     end
 
   ## Runner#build!
@@ -130,6 +136,7 @@ module StableMatch
       end
 
       {
+        'strategy'       => strategy.to_s,
         'candidate_set1' => inspection[ candidate_set1 ],
         'candidate_set2' => inspection[ candidate_set2 ]
       }.to_yaml
@@ -137,12 +144,19 @@ module StableMatch
 
   ## Runner#remaining_candidates
   #
+  # This method respects the runner's strategy!
+  #
   # List the remaining candidates that:
   # -> have remaining slots available for matches AND
   # -> have not already proposed to all of their preferences
   #
     def remaining_candidates
-      candidates.reject{ | candidate | candidate.full? || candidate.exhausted_preferences? }
+      case strategy.to_sym
+      when :symmetric
+        candidates.reject { | candidate | candidate.full? || candidate.exhausted_preferences? }
+      when :asymmetric
+        candidate_set1.values.reject { | candidate | candidate.full? || candidate.exhausted_preferences? }
+      end
     end
 
   ## Runner#run
