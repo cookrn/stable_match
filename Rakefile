@@ -13,11 +13,38 @@ task :example => "examples:any"
 
 namespace :test do
   desc "Run All The Tests"
-  task :all => [ "test:unit" ]
+  task :all do
+    suites = %w(
+      test:functional
+      test:unit
+    )
+
+    suites.each do | suite |
+      puts "=========================================="
+      puts "Running: #{ suite }"
+      puts "=========================================="
+      begin
+        Rake::Task[ suite ].invoke
+      rescue
+        puts "=========================================="
+        puts "FAILED: #{ suite }"
+      ensure
+        puts "=========================================="
+        puts "\n"
+      end
+    end
+  end
+
+  desc "Run The Functional Tests"
+  Rake::TestTask.new( :functional ) do | t |
+    t.libs    << [ "test" ]
+    t.pattern = "test/functional/**/*_test.rb"
+    t.verbose = true
+  end
 
   desc "Run The Unit Tests"
   Rake::TestTask.new( :unit ) do | t |
-    t.libs    = [ "test" ]
+    t.libs    << [ "test" ]
     t.pattern = "test/unit/**/*_test.rb"
     t.verbose = true
   end
