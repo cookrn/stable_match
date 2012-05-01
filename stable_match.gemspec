@@ -2,8 +2,8 @@
 require File.expand_path('../lib/stable_match/version', __FILE__)
 
 Gem::Specification.new do | gem |
-  gem.authors       = [ "Ryan Cook" ]
-  gem.email         = [ "cookrn@gmail.com" ]
+  gem.authors       = [ "Ryan Cook" , "Ara Howard" ]
+  gem.email         = [ "cookrn@gmail.com" , "ara.t.howard@gmail.com" ]
   gem.description   = %q{A generic implementation of the stable match algorightm.}
   gem.summary       = %q{stable_match v0.1.0}
   gem.homepage      = "https://github.com/cookrn/stable_match"
