@@ -1,6 +1,8 @@
 require "stable_match"
 
 class Test
+## This is a modified version of the example NRMP case
+#
   PROGRAMS = {
     'city'    => { :match_positions => 1, :preferences => ['garcia', 'hassan', 'eastman', 'brown', 'chen', 'davis', 'ford']},
     'general' => { :match_positions => 3, :preferences => ['brown', 'eastman', 'hassan', 'anderson', 'chen', 'davis', 'garcia']},
