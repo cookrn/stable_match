@@ -3,6 +3,16 @@ module MiniTest
     class TestCase
       alias_method '__assert__' , 'assert'
 
+    ## TestCase#assert
+    #
+    # See: https://github.com/ahoward/testing.rb/blob/08dd643239a23543409ecb5fee100181f1621794/lib/testing.rb#L82-107
+    #
+    # Override assert to take a few different kinds of options
+    # Most notable argument type is a block that:
+    # -> asserts no exceptions were raised
+    # -> asserts the result of the block is truthy
+    # -> returns the result of the block
+    #
       def assert( *args , &block )
         if args.size == 1 and args.first.is_a?(Hash)
           options  = args.first
