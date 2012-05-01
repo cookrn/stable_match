@@ -91,12 +91,12 @@ module StableMatch
       require "yaml"
 
       {
-        :target              => target,
-        :match_positions     => match_positions,
-        :matches             => matches.map( &:target ),
-        :preference_position => preference_position,
-        :preferences         => preferences.map( &:target ),
-        :proposals           => proposals.map( &:target )
+        'target'              => target,
+        'match_positions'     => match_positions,
+        'matches'             => matches.map( &:target ),
+        'preference_position' => preference_position,
+        'preferences'         => preferences.map( &:target ),
+        'proposals'           => proposals.map( &:target )
       }.to_yaml
     end
 
