@@ -1,8 +1,16 @@
 # StableMatch
 
-TODO: Write a gem description
+A generic implementation of the Stable Match class of algorithms.
 
 ## Installation
+
+### Without Bundler
+
+Or install it yourself as:
+
+    $ gem install stable_match
+
+### With Bundler
 
 Add this line to your application's Gemfile:
 
@@ -12,13 +20,20 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install stable_match
-
 ## Usage
 
-TODO: Write usage instructions here
+See: `examples/example_1.rb`
+Run: `rake example`
+
+TODO: Write more usage instructions here
+
+## References
+
+* [http://halfamind.aghion.com/the-national-resident-matching-programs-nrmp](http://halfamind.aghion.com/the-national-resident-matching-programs-nrmp)
+* [http://rosettacode.org/wiki/Stable_marriage_problem#Ruby](http://rosettacode.org/wiki/Stable_marriage_problem#Ruby)
+* [http://en.wikipedia.org/wiki/Stable_marriage_problem#Algorithm](http://en.wikipedia.org/wiki/Stable_marriage_problem#Algorithm)
+* [http://en.wikipedia.org/wiki/National_Resident_Matching_Program](http://en.wikipedia.org/wiki/National_Resident_Matching_Program)
+* [http://www.nrmp.org/res_match/about_res/algorithms.html](http://www.nrmp.org/res_match/about_res/algorithms.html)
 
 ## Contributing
 
