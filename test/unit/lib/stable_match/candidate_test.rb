@@ -1,6 +1,6 @@
-require "test_helper"
+require 'test_helper'
 
-class StableMatch::CandidateUnitTest < MiniTest::Unit::TestCase
+class StableMatch::CandidateTest < StableMatch::Test
   def setup
     @candidate1 = StableMatch::Candidate.new 1 , [ 2 , 3 ]
     @candidate2 = StableMatch::Candidate.new 2 , [ 1 , 3 ]
@@ -11,32 +11,14 @@ class StableMatch::CandidateUnitTest < MiniTest::Unit::TestCase
     @candidate3.preferences = [ @candidate2 , @candidate1 ]
   end
 
-## Candidate#initialize
-#
-  def test_accepts_args_as_named_options_or_positionally
-    target      = 1
-    preferences = 2
-
-    assert{ StableMatch::Candidate.new( target , preferences ) }
-    assert{ StableMatch::Candidate.new( :target => target , :preferences => preferences ) }
-
-    candidate = assert{ StableMatch::Candidate.new( target , :preferences => preferences ) }
-    assert{ candidate.target == target }
-
-    candidate = assert{ StableMatch::Candidate.new( preferences , :target => target ) }
-    assert{ candidate.preferences == preferences }
-  end
-
   def test_match_positions_option_overrides_default
     assert{ @candidate1.match_positions }
 
     match_positions = 3
-    candidate       = StableMatch::Candidate.new( 1 , [ 2 , 3 ] , :match_positions => match_positions )
+    candidate       = StableMatch::Candidate.new( 1 , [ 2 , 3 ] , match_positions )
     assert{ candidate.match_positions == match_positions }
   end
 
-## Candidate#better_match?
-#
   def test_better_match_returns_false_if_not_preferred
     candidate4 = StableMatch::Candidate.new 4 , [ @candidate3 , @candidate2 ]
     assert{ !@candidate1.better_match?( candidate4 ) }
@@ -56,8 +38,6 @@ class StableMatch::CandidateUnitTest < MiniTest::Unit::TestCase
     assert{ @candidate1.better_match? @candidate2 }
   end
 
-## Candidate#exhausted_preferences?
-#
   def test_exhausted_preferences_returns_false_if_not_all_preferences_have_been_checked
     assert{ !@candidate1.exhausted_preferences? }
   end
@@ -67,8 +47,6 @@ class StableMatch::CandidateUnitTest < MiniTest::Unit::TestCase
     assert{ @candidate1.exhausted_preferences? }
   end
 
-## Candidate#free?
-#
   def test_free_returns_false_if_all_match_positions_are_filled
     @candidate1.match! @candidate2
     assert{ !@candidate1.free? }
@@ -78,8 +56,6 @@ class StableMatch::CandidateUnitTest < MiniTest::Unit::TestCase
     assert{ @candidate1.free? }
   end
 
-## Candidate#free!
-#
   def test_free_returns_false_if_there_are_no_matches
     assert{ !@candidate1.free! }
   end
@@ -96,8 +72,6 @@ class StableMatch::CandidateUnitTest < MiniTest::Unit::TestCase
     assert{ !@candidate2.matches.include?( @candidate1 ) }
   end
 
-## Candidate#full?
-#
   def test_free_returns_false_if_all_match_positions_are_filled
     @candidate1.match! @candidate2
     assert{ @candidate1.full? }
@@ -107,8 +81,6 @@ class StableMatch::CandidateUnitTest < MiniTest::Unit::TestCase
     assert{ !@candidate1.full? }
   end
 
-## Candidate#match!
-#
   def test_match_returns_false_if_other_is_not_preferred
     candidate4 = StableMatch::Candidate.new 4 , [ @candidate3 , @candidate2 ]
     assert{ !@candidate1.match!( candidate4 ) }
@@ -129,8 +101,6 @@ class StableMatch::CandidateUnitTest < MiniTest::Unit::TestCase
     assert{ @candidate2.matches.include? @candidate1 }
   end
 
-## Candidate#matched?
-#
   def test_matched_returns_full_with_no_args
     @candidate1.match! @candidate2
     assert{ @candidate1.matched? == @candidate1.full? }
@@ -141,8 +111,6 @@ class StableMatch::CandidateUnitTest < MiniTest::Unit::TestCase
     assert{ @candidate1.matched? @candidate2 }
   end
 
-## Candidate#next_preference!
-#
   def test_next_preference_increments_the_preference_position
     preference_position = @candidate1.preference_position
     assert{ @candidate1.next_preference! }
@@ -154,22 +122,16 @@ class StableMatch::CandidateUnitTest < MiniTest::Unit::TestCase
     assert{ expected_candidate == @candidate1.next_preference! }
   end
 
-## Candidate#prefers?
-#
   def test_prefers_checks_for_existence_of_candidate_in_preferences
     assert{ @candidate1.prefers? @candidate2 }
     assert{ !@candidate1.prefers?( "bogus" ) }
   end
 
-## Candidate#propose_to
-#
   def test_propose_to_tracks_proposals
     assert{ @candidate1.propose_to @candidate2 }
     assert{ @candidate1.proposals.include? @candidate2 }
   end
 
-## Candidate#respond_to_proposal_from
-#
   def test_respond_to_proposal_from_returns_false_if_other_is_not_preferred
     candidate4 = StableMatch::Candidate.new 4 , [ @candidate3 , @candidate2 ]
     assert{ !@candidate1.respond_to_proposal_from( candidate4 ) }

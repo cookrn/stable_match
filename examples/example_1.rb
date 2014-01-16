@@ -4,21 +4,21 @@ class Test
 ## This is a modified version of the example NRMP case
 #
   PROGRAMS = {
-    'city'    => { :match_positions => 1, :preferences => ['garcia', 'hassan', 'eastman', 'brown', 'chen', 'davis', 'ford']},
-    'general' => { :match_positions => 3, :preferences => ['brown', 'eastman', 'hassan', 'anderson', 'chen', 'davis', 'garcia']},
-    'mercy'   => { :match_positions => 1, :preferences => ['chen', 'garcia', 'brown']},
-    'state'   => { :match_positions => 1, :preferences => ['anderson', 'brown', 'eastman', 'chen', 'hassan', 'ford', 'davis', 'garcia']}
+    'city'    => ['garcia', 'hassan', 'eastman', 'brown', 'chen', 'davis', 'ford'],
+    'general' => [ ['brown', 'eastman', 'hassan', 'anderson', 'chen', 'davis', 'garcia'] , 3 ],
+    'mercy'   => [ ['chen', 'garcia', 'brown'] , 2 ],
+    'state'   => ['anderson', 'brown', 'eastman', 'chen', 'hassan', 'ford', 'davis', 'garcia']
   }
 
   APPLICANTS = {
-    'anderson' => { :match_positions => 1 , :preferences => ['state', 'city'] },
-    'brown'    => { :match_positions => 2 , :preferences => ['city', 'mercy', 'state'] },
-    'chen'     => { :match_positions => 1 , :preferences => ['city', 'mercy'] },
-    'davis'    => { :match_positions => 1 , :preferences => ['mercy', 'city', 'general', 'state'] },
-    'eastman'  => { :match_positions => 1 , :preferences => ['city', 'mercy', 'state', 'general'] },
-    'ford'     => { :match_positions => 1 , :preferences => ['city', 'general', 'mercy', 'state'] },
-    'garcia'   => { :match_positions => 1 , :preferences => ['city', 'mercy', 'state', 'general'] },
-    'hassan'   => { :match_positions => 1 , :preferences => ['state', 'city', 'mercy', 'general' ] }
+    'anderson' => ['state', 'city'],
+    'brown'    => ['city', 'mercy', 'state'],
+    'chen'     => ['city', 'mercy'],
+    'davis'    => ['mercy', 'city', 'general', 'state'],
+    'eastman'  => ['city', 'mercy', 'state', 'general'],
+    'ford'     => ['city', 'general', 'mercy', 'state'],
+    'garcia'   => ['city', 'mercy', 'state', 'general'],
+    'hassan'   => ['state', 'city', 'mercy', 'general' ]
   }
 
   def self.main
