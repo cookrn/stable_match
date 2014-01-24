@@ -37,20 +37,28 @@ namespace :test do
       test:unit
     )
 
-    suites.each do | suite |
-      puts '=========================================='
-      puts "Running: #{ suite }"
-      puts '=========================================='
-      begin
-        Rake::Task[ suite ].invoke
-      rescue
+    final =
+      suites.all? do | suite |
         puts '=========================================='
-        puts "FAILED: #{ suite }"
-      ensure
+        puts "Running: #{ suite }"
         puts '=========================================='
-        puts "\n"
+
+        begin
+          result = Rake::Task[ suite ].invoke
+        rescue
+          puts '=========================================='
+          puts "FAILED: #{ suite }"
+          result = false
+        ensure
+          puts '=========================================='
+          puts
+        end
+
+        result
       end
-    end
+
+    status = final ? 0 : 1
+    exit status
   end
 
   desc 'Run The Functional Tests'

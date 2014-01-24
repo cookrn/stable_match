@@ -2,6 +2,8 @@
 
 [![Gem Version](https://badge.fury.io/rb/stable_match.png)](http://badge.fury.io/rb/stable_match)
 [![Build Status](https://travis-ci.org/cookrn/stable_match.png?branch=master)](https://travis-ci.org/cookrn/stable_match)
+[![Code Climate](https://codeclimate.com/github/cookrn/stable_match.png)](https://codeclimate.com/github/cookrn/stable_match)
+[![Coverage Status](https://coveralls.io/repos/cookrn/stable_match/badge.png)](https://coveralls.io/r/cookrn/stable_match)
 
 A generic implementation of the Stable Match class of algorithms.
 
