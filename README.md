@@ -1,6 +1,7 @@
 # StableMatch
 
 [![Gem Version](https://badge.fury.io/rb/stable_match.png)](http://badge.fury.io/rb/stable_match)
+[![Build Status](https://travis-ci.org/cookrn/stable_match.png?branch=master)](https://travis-ci.org/cookrn/stable_match)
 
 A generic implementation of the Stable Match class of algorithms.
 
